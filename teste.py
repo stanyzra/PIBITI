@@ -38,9 +38,11 @@ for linha in range(len(conteudo)):
         pessoa += 1
         cont = 1
 
+    # Usa no treinamento se o cont for até a quantidade de amostras para treino
     if cont <= amostras_treino:
         train_feat.append(conteudo[linha])
         train_label.append(str(pessoa))
+    # Se não, joga a amostra para o conjunto de teste
     else:
         test_feat.append(conteudo[linha])
         test_label.append(str(pessoa))
@@ -49,11 +51,10 @@ for linha in range(len(conteudo)):
     cont += 1
 
 
+""" Testes para ver os resultados """
+
 print(pessoa)
-# print("train feat: ", train_feat)
-print()
-print("train label: ", train_label)
-print()
-# print("test feat: ", test_feat)
-print()
-print("test label: ", test_label)
+# print("\ntrain feat: ", train_feat)
+print("\ntrain label: ", train_label)
+# print("\ntest feat: ", test_feat)
+print("\ntest label: ", test_label)
