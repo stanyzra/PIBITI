@@ -4,6 +4,92 @@ Modos de leitura de arquivos:
 - "w" é de escrita
 - "a" é de escrita, mas começa um arquivo em branco e apaga se já existir
 """
+import numpy as np 
+#from sklearn import svm, tree
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
+#from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import GridSearchCV
+#from sklearn.ensemble import RandomForestClassifier
+#from sklearn import tree
+
+def predictSVM():
+  
+  C_range = np.logspace(-2, 4, 5)
+  gamma_range = np.logspace(-9, 3, 5)
+
+  param_grid = dict(kernel=['rbf'], gamma=gamma_range, C=C_range)
+
+  clf = GridSearchCV(SVC(probability=True), param_grid)
+  #clf = svm.SVC(kernel='rbf', probability=True)
+
+  # Treina o modelo com os vetores de características e o rótulo (classe/identificador) de cada um
+  clf.fit(train_feat, train_label)
+
+  # Classifica cada amostra do seguinte vetor
+  predict = clf.predict_proba(test_feat)
+  # Ele retorna a label que acha que é para cada uma das imagens
+  print("Predict: ", predict)
+ # print("Rotulos de teste: ", test_label)
+ # a = 0
+ # acertos = 0
+
+ #while(a < len(predict)):
+      
+#      if(predict[a] == test_label[a]):
+#          print("Posição do acerto do vetor: ", a) 
+#          acertos += 1 
+        
+#      a += 1
+
+  print("The best parameters are %s with a score of %0.2f"
+      % (clf.best_params_, clf.best_score_))
+  return predict    
+  #print()
+  #print("Número de acertos: ", acertos)
+  #print("Porcentagem de acerto: ", ((acertos/len(predict))#*100))
+
+def predictKNN():
+  #weight_options = ['uniform', 'distance']
+  # define the parameter values that should be searched
+# for python 2, k_range = range(1, 31)
+  k_range = list(range(1, 31))
+  #C_range = np.logspace(-2, 4, 5)
+  #gamma_range = np.logspace(-9, 3, 5)
+
+  param_grid = dict(n_neighbors=k_range)
+  for k in k_range:
+    # 2. run KNeighborsClassifier with k neighbours
+    knn = KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                                metric_params=None, n_jobs=1, n_neighbors=k, p=2,
+                                weights='uniform')
+  clf = GridSearchCV(knn, param_grid,scoring='accuracy')
+
+  #clf = svm.SVC(kernel='rbf', probability=True)
+
+  # Treina o modelo com os vetores de características e o rótulo (classe/identificador) de cada um
+  clf.fit(train_feat, train_label)
+
+  # Classifica cada amostra do seguinte vetor
+  predict = clf.predict_proba(test_feat)
+  # Ele retorna a label que acha que é para cada uma das imagens
+  print("Predict: ", predict)
+ # print("Rotulos de teste: ", test_label)
+ # a = 0
+ # acertos = 0
+
+ #while(a < len(predict)):
+      
+#      if(predict[a] == test_label[a]):
+#          print("Posição do acerto do vetor: ", a) 
+#          acertos += 1 
+        
+#      a += 1
+
+  print("The best parameters are %s with a score of %0.2f"
+      % (clf.best_params_, clf.best_score_))
+  return predict  
+
 fileh = open("lbp.txt", "r")
 
 conteudo = fileh.readlines()
@@ -60,51 +146,46 @@ for linha in range(len(conteudo)):
 #for i in range(len(test_feat)):
 #   valTest = test_feat[i].split() #splitando o conteudo do train_feat
 
-print(pessoa)
+#print(pessoa)
 #print("\nvalTrain: ", valTrain)
 #print("\nvalTest: ", valTest)
-print("\ntrain feat: ", train_feat)
-print("----------------------------------------------------------------------")
-print("\ntest feat: ", test_feat)
-print("\ntrain label: ", train_label)
-print("\ntest label: ", test_label)
-
-#from sklearn import svm, tree
-from sklearn.svm import SVC
-#from sklearn.neighbors import KNeighborsClassifier
-#from sklearn.neural_network import MLPClassifier
-from sklearn.model_selection import GridSearchCV
-#from sklearn.ensemble import RandomForestClassifier
-#from sklearn import tree
+#print("\ntrain feat: ", train_feat)
+#print("----------------------------------------------------------------------")
+#print("\ntest feat: ", test_feat)
+#print("\ntrain label: ", train_label)
+#print("\ntest label: ", test_label)
 
 # Parâmetros para o GridSearch
-param_grid = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9],
-                     'C': [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000]},
-                    {'kernel': ['linear'], 'gamma': [1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9],
-                     'C': [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000]}]
+#param_grid = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9],
+#                     'C': [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000]},
+#                    {'kernel': ['linear'], 'gamma': [1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9],
+#                     'C': [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000]}]
 
-clf = GridSearchCV(SVC(), param_grid)
-#clf = svm.SVC(kernel='rbf', probability=True)
+"""
+fileSVM = open("predictSVM.txt","w")
 
-# Treina o modelo com os vetores de características e o rótulo (classe/identificador) de cada um
-clf.fit(train_feat, train_label)
+conteudoSVM = predictSVM()
+linhas = len(conteudoSVM)
+colunas = len(conteudoSVM[0])
 
-# Classifica cada amostra do seguinte vetor
-predict = clf.predict(test_feat)
-# Ele retorna a label que acha que é para cada uma das imagens
-print("Predict: ", predict)
-print("Rotulos de teste: ", test_label)
-a = 0
-acertos = 0
+print(linhas)
+for i in range(linhas):
+  for j in range(colunas):
+    fileSVM.write(str(conteudoSVM[i][j])+" ")
 
-while(a < len(predict)):
-    
-    if(predict[a] == test_label[a]):
-        print("Posição do acerto do vetor: ", a) 
-        acertos += 1 
-      
-    a += 1
-    
-print()
-print("Número de acertos: ", acertos)
-print("Porcentagem de acerto: ", ((acertos/len(predict))*100))
+
+fileSVM.close()
+"""
+
+fileKNN = open("predicts/predictKNN.txt","w")
+
+conteudoKNN = predictKNN()
+linhas = len(conteudoKNN)
+colunas = len(conteudoKNN[0])
+
+for i in range(linhas):
+  for j in range(colunas):
+    fileKNN.write(str(conteudoKNN[i][j])+" ")
+
+
+fileKNN.close()
