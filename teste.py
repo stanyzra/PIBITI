@@ -60,9 +60,7 @@ def predictKNN():
   param_grid = dict(n_neighbors=k_range)
   for k in k_range:
     # 2. run KNeighborsClassifier with k neighbours
-    knn = KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
-                                metric_params=None, n_jobs=1, n_neighbors=k, p=2,
-                                weights='uniform')
+    knn = KNeighborsClassifier(n_neighbors=k)
   clf = GridSearchCV(knn, param_grid,scoring='accuracy')
 
   #clf = svm.SVC(kernel='rbf', probability=True)
@@ -161,8 +159,7 @@ for linha in range(len(conteudo)):
 #                    {'kernel': ['linear'], 'gamma': [1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9],
 #                     'C': [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000]}]
 
-"""
-fileSVM = open("predictSVM.txt","w")
+fileSVM = open("predicts/predictSVM.txt","w")
 
 conteudoSVM = predictSVM()
 linhas = len(conteudoSVM)
@@ -175,17 +172,20 @@ for i in range(linhas):
 
 
 fileSVM.close()
+
 """
 
-fileKNN = open("predicts/predictKNN.txt","w")
+fileKNN = open("predictKNN.txt","w")
 
 conteudoKNN = predictKNN()
 linhas = len(conteudoKNN)
 colunas = len(conteudoKNN[0])
 
+print(linhas)
 for i in range(linhas):
   for j in range(colunas):
     fileKNN.write(str(conteudoKNN[i][j])+" ")
 
 
 fileKNN.close()
+"""
