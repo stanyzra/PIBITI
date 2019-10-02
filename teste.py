@@ -168,9 +168,10 @@ colunas = len(conteudoSVM[0])
 print(linhas)
 for i in range(linhas):
   for j in range(colunas):
-    fileSVM.write(str(conteudoSVM[i][j])+" ")
+      fileSVM.write(str(conteudoSVM[i][j])+" ")
 
-
+  if(i < linhas):
+      fileSVM.write("\n")
 fileSVM.close()
 
 """
