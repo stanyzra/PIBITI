@@ -22,8 +22,13 @@ def lerRH():
     
     return conteudo
 
+<<<<<<< HEAD
 conteudoLBP = lerLBP()
 conteudoRH = lerRH()
+=======
+conteudoLBP = (lerLBP())
+conteudoRH = (lerRH())
+>>>>>>> f5280210cb73fa2ba7a139d62a2975b3126892f1
 
 # Cria os vetores para armazenar a fusão
 vetSoma = []
