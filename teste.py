@@ -75,7 +75,9 @@ def predictSVM_RH():
     predict = clf.predict_proba(test_feat)
   # Ele retorna a label que acha que é para cada uma das imagens
     #print("Predict: ", predict)
- # print("Rotulos de teste: ", test_label)
+    #fileLabel = open("labels/label_")
+    print("Rotulos de treino: ", train_label)
+    print("Rotulos de teste: ", test_label)
  # a = 0
  # acertos = 0
 
@@ -142,9 +144,15 @@ def predictSVM_LBP():
         # Conta mais uma amostra para a próxima rodada do for
         cont += 1    
         
+    fileLabel = open("labels/labelSVM.txt","w")
+    
+    for i in range(len(test_label)):
+        fileLabel.write(str(test_label[i])+"\n")
+    
+    fileLabel.close()
+    
     C_range = np.logspace(-2, 4, 5)
     gamma_range = np.logspace(-9, 3, 5)
-
     param_grid = dict(kernel=['rbf'], gamma=gamma_range, C=C_range)
 
     clf = GridSearchCV(SVC(probability=True), param_grid)
@@ -155,6 +163,9 @@ def predictSVM_LBP():
 
   # Classifica cada amostra do seguinte vetor
     predict = clf.predict_proba(test_feat)
+    
+    print("Rotulos de treino: ", train_label)
+    print("Rotulos de teste: ", test_label)
   # Ele retorna a label que acha que é para cada uma das imagens
     #print("Predict: ", predict)
  # print("Rotulos de teste: ", test_label)
@@ -185,6 +196,7 @@ def gerarArquivoSVM_LBP():
     linhas = len(conteudoSVM)
     colunas = len(conteudoSVM[0])
     print(linhas)
+    print(conteudoSVM)
     for i in range(linhas):
       for j in range(colunas):
           fileSVM.write(str(conteudoSVM[i][j])+" ")
@@ -201,6 +213,7 @@ def gerarArquivoSVM_RH():
     colunas = len(conteudoSVM[0])
     
     print(linhas)
+    print(conteudoSVM)
     for i in range(linhas):
       for j in range(colunas):
           fileSVM.write(str(conteudoSVM[i][j])+" ")
@@ -210,3 +223,4 @@ def gerarArquivoSVM_RH():
 
 gerarArquivoSVM_LBP()
 gerarArquivoSVM_RH()
+

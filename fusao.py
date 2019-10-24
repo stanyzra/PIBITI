@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Oct  2 16:33:11 2019
-
 @author: aleix
 """
-import numpy as np
 
 def lerLBP():
     fileh = open("predicts/predictSVM_LBP.txt","r")
@@ -24,21 +22,48 @@ def lerRH():
     
     return conteudo
 
-conteudoLBP =(lerLBP())
-conteudoRH = (lerRH())
-linhas = len(conteudoLBP)
-colunas = len(conteudoLBP[0])
-print("linhas: ",linhas)
-print("colunas: ",colunas)
+conteudoLBP = lerLBP()
+conteudoRH = lerRH()
 
-for i in range(int(linhas/2)):
+# Cria os vetores para armazenar a fusão
+vetSoma = []
+vetProduto = []
+vetMax = []
 
-    print(i)
-    numLBP = conteudoLBP[i].replace('\n','').split(" ")
-    numRH = conteudoRH[i].replace('\n','').split(" ")
-    #del(numLBP[80])
-    #del(numRH[80])
-    numLBP = np.delete(numLBP,80)
-    numRH = np.delete(numRH,80)
-    #fusaoSaidas = sum((numLBP), (numRH))
-    fusaoSaidas = np.maximum(numLBP.astype(np.float),numRH.astype(np.float))
+for lin in range(len(conteudoLBP)):
+
+    # Gera o vetor com os predicts somente do 0 até o 79, porque 80 (classes) não conta
+    vetPredictLBP = conteudoLBP[lin].replace('\n', '').split(" ")[0:80]
+    vetPredictRH = conteudoRH[lin].replace('\n', '').split(" ")[0:80]
+    # vetor[inicio:fim]
+    
+    # Mostra a última posição do vetor
+    # print("Vet predict:", vetPredictLBP[-1])
+
+    # Faz a fusão
+    linhaSoma = [float(x) + float(y) for x, y in zip(vetPredictLBP, vetPredictRH)]
+    linhaProduto = [float(x) * float(y) for x, y in zip(vetPredictLBP, vetPredictRH)]
+    linhaMax = [x if float(x) >= float(y) else y for x, y in zip(vetPredictLBP, vetPredictRH)]
+
+    # Adiciona a linha que foi fundida ao vetor com todos os valores
+    vetSoma.append(linhaSoma)
+    vetProduto.append(linhaProduto)
+    vetMax.append(linhaMax)
+
+# Criar os arquivos do zero no modo escrita
+fileSoma = open("predicts/predictSoma.txt", "w")
+fileProduto = open("predicts/predictProduto.txt", "w")
+fileMax = open("predicts/predictMax.txt", "w")
+
+for lin in range(len(vetSoma)):
+    linhaSoma = str(vetSoma[lin]).replace("[", "").replace("]", "").replace(",", "")
+    linhaProduto = str(vetProduto[lin]).replace("[", "").replace("]", "").replace(",", "")
+    linhaMax = str(vetMax[lin]).replace("[", "").replace("]", "").replace(",", "")
+
+    fileSoma.write(linhaSoma.replace("'","")+"\n")
+    fileProduto.write(linhaProduto.replace("'", "")+"\n")
+    fileMax.write(linhaMax.replace("'", "")+"\n")
+
+fileSoma.close()
+fileProduto.close()
+fileMax.close()
