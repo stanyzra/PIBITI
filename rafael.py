@@ -47,16 +47,20 @@ def comparar_labels(label_correta, label_gerada):
     print(conteudo_gerada)
     # Conta os acertos
     acertos = 0
+    total_amostras = 0
 
     # Percorre os arquivos de labels
     for lin in range(len(conteudo_correto)):
+
+        if conteudo_correto[lin] != "" and conteudo_correto[lin] != "\n":
+            total_amostras += 1
 
         # Se as linhas forem iguals, conta um acerto... Desde que não seja vazio nem \n
         if conteudo_correto[lin] == conteudo_gerada[lin] and conteudo_correto[lin] != "" and conteudo_correto[lin] != "\n":
             acertos += 1
 
-    print("O total de acertos do arquivo {} foi de {}.".format(label_gerada, acertos))
+    print("O total de acertos do arquivo {} foi de {} que equivale a {}%.".format(label_gerada, acertos, acertos*100/total_amostras))
 
 
-resultado = gerar_labels("predicts/predictSVM_LBP.txt")
-comparar_labels("labels/labelSVM.txt", resultado)
+# resultado = gerar_labels("predicts/predictSVM_LBP.txt")
+# comparar_labels("labels/labelSVM.txt", resultado)

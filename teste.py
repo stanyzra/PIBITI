@@ -136,32 +136,59 @@ def predictSVM_LBP():
         # Usa no treinamento se o cont for até a quantidade de amostras para treino
         if cont <= amostras_treino:
             train_feat.append(conteudo[linha].split())
-            train_label.append(str(pessoa))
+            train_label.append("{:02d}".format(pessoa))
         # Se não, joga a amostra para o conjunto de teste
         else:
             test_feat.append(conteudo[linha].split())
-            test_label.append(str(pessoa))
+            test_label.append("{:02d}".format(pessoa))
         # Conta mais uma amostra para a próxima rodada do for
         cont += 1    
-        
-    fileLabel = open("labels/labelSVM.txt","w")
-    fileTrainLabel = open("labels/labelTrain.txt","w")
-    for i in range(len(test_label)):
-        fileLabel.write(str(test_label[i])+"\n")
-        fileTrainLabel.write(str(test_feat[i])+"\n")
-    fileLabel.close()
-    fileTrainLabel.close()
+
+    '''
+    Apenas para teste
+    '''    
+    # fileLabel = open("labels/labelSVM.txt","w")
+    # fileTrainLabel = open("labels/labelTrain.txt","w")
+    
+    # for i in range(len(test_label)):
+    #     fileLabel.write(str(test_label[i])+"\n")
+    #     fileTrainLabel.write(str(test_feat[i])+"\n")
+    
+    # fileLabel.close()
+    # fileTrainLabel.close()
+
 
     C_range = np.logspace(-5, 9, 10)
     gamma_range = np.logspace(-9, 3, 5)
     param_grid = dict(kernel=['rbf'], gamma=gamma_range, C=C_range)
 
     clf = GridSearchCV(SVC(probability=True), param_grid)
-  #clf = svm.SVC(kernel='rbf', probability=True)
+    #clf = svm.SVC(kernel='rbf', probability=True)
 
-  # Treina o modelo com os vetores de características e o rótulo (classe/identificador) de cada um
+    # Treina o modelo com os vetores de características e o rótulo (classe/identificador) de cada um
     clf.fit(train_feat, train_label)
 
+    # Gera as labels que ele acha que é
+    # predict = clf.predict(test_feat)
+    # print("Labels que o SVM acha que é:", predict)
+    
+    # Gera a taxa de acerto
+    # predict = clf.score(test_feat, test_label)
+    # print("Taxa de acerto (acurácia):", predict)
+
+    # Gera a matriz de probabilidades
+    predict = clf.predict_proba(test_feat)
+    print("Matriz de probabilidades:\n", predict[0])
+    
+    # gets a dictionary of {'class_name': probability}
+    prob_per_class_dictionary = dict(zip(clf.classes_, predict[0]))
+    print("Prob por classe:\n", prob_per_class_dictionary)
+
+    # gets a list of ['most_probable_class', 'second_most_probable_class', ..., 'least_class']
+    results_ordered_by_probability = map(lambda x: x[0], sorted(zip(clf.classes_, predict[0]), key=lambda x: x[1], reverse=True))
+    print("\nProb por classe (ordenado):\n", results_ordered_by_probability)
+
+    """
     predict = clf.predict_proba(test_feat)
     predict_labels = clf.predict(test_feat)
     
@@ -178,6 +205,8 @@ def predictSVM_LBP():
     fileLabelLBP.close()
     
     return predict
+    """
+    
   
 def gerarArquivoSVM_LBP():
     
@@ -213,6 +242,6 @@ def gerarArquivoSVM_RH():
           fileSVM.write("\n")
     fileSVM.close()
 
-gerarArquivoSVM_LBP()
-gerarArquivoSVM_RH()
+# gerarArquivoSVM_LBP()
+# gerarArquivoSVM_RH()
 
