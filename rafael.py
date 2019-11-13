@@ -29,7 +29,7 @@ def gerar_labels(arquivo):
         linha_predict = np.array(conteudo[lin].copy())
         # O argmax retorna a posição do maior valor. Como o vetor começa em 0 e nossas labels em 1, fiz + 1
         label = np.argmax(linha_predict) + 1
-
+        print(label)
         # salvando os resultados em um arquivo de texto
         arquivo_label.write("{}\n".format(label))
 
@@ -44,7 +44,7 @@ def comparar_labels(label_correta, label_gerada):
     # lendo os arquivos de predict e label criados anteriormente
     conteudo_correto = np.loadtxt(label_correta)
     conteudo_gerada = np.loadtxt(label_gerada)
-
+    print(conteudo_gerada)
     # Conta os acertos
     acertos = 0
 

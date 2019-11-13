@@ -25,13 +25,13 @@ acertoMax = 0
 for lin in range(len(conteudoSoma)):
 
     label_soma = np.array(conteudoSoma[lin].copy())
-    label_soma = np.argmax(conteudoSoma[:,1:], 1)
+    label_soma = np.argmax(conteudoSoma[:,1:], 1)+1
     
     label_produto = np.array(conteudoProduto[lin].copy())
-    label_produto = np.argmax(conteudoProduto[:,1:], 1)
+    label_produto = np.argmax(conteudoProduto[:,1:], 1)+1
     
     label_max = np.array(conteudoMax[lin].copy())
-    label_max = np.argmax(conteudoMax[:,1:], 1)
+    label_max = np.argmax(conteudoMax[:,1:], 1)+1
     
 # salvando os resultados em um arquivo de texto    
 np.savetxt('labels/label_soma.txt', label_soma, fmt='%d')

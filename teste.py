@@ -60,7 +60,7 @@ def predictSVM_RH():
         # Conta mais uma amostra para a próxima rodada do for
         cont += 1    
         
-    C_range = np.logspace(-2, 4, 5)
+    C_range = np.logspace(-5, 9, 10)
     gamma_range = np.logspace(-9, 3, 5)
 
     param_grid = dict(kernel=['rbf'], gamma=gamma_range, C=C_range)
@@ -73,24 +73,24 @@ def predictSVM_RH():
 
   # Classifica cada amostra do seguinte vetor
     predict = clf.predict_proba(test_feat)
+    predict_labels = clf.predict(test_feat)
+
   # Ele retorna a label que acha que é para cada uma das imagens
     #print("Predict: ", predict)
     #fileLabel = open("labels/label_")
-    print("Rotulos de treino: ", train_label)
+  #  print("Rotulos de treino: ", train_label)
     print("Rotulos de teste: ", test_label)
- # a = 0
- # acertos = 0
-
- #while(a < len(predict)):
-      
-#      if(predict[a] == test_label[a]):
-#          print("Posição do acerto do vetor: ", a) 
-#          acertos += 1 
-        
-#      a += 1
-
+    print("Predict RH: ", predict_labels)
     print("The best parameters with RH are %s with a score of %0.2f"
         % (clf.best_params_, clf.best_score_))
+    
+    fileLabelRH = open("labels/predict_RH.txt","w")
+
+    for i in range(len(predict_labels)):
+        #if(predict_labels[i] == test_label[i]):
+        fileLabelRH.write(str(predict_labels[i]+"\n"))
+    fileLabelRH.close()
+    
     return predict
 
   #print()
@@ -145,13 +145,14 @@ def predictSVM_LBP():
         cont += 1    
         
     fileLabel = open("labels/labelSVM.txt","w")
-    
+    fileTrainLabel = open("labels/labelTrain.txt","w")
     for i in range(len(test_label)):
         fileLabel.write(str(test_label[i])+"\n")
-    
+        fileTrainLabel.write(str(test_feat[i])+"\n")
     fileLabel.close()
-    
-    C_range = np.logspace(-2, 4, 5)
+    fileTrainLabel.close()
+
+    C_range = np.logspace(-5, 9, 10)
     gamma_range = np.logspace(-9, 3, 5)
     param_grid = dict(kernel=['rbf'], gamma=gamma_range, C=C_range)
 
@@ -161,32 +162,22 @@ def predictSVM_LBP():
   # Treina o modelo com os vetores de características e o rótulo (classe/identificador) de cada um
     clf.fit(train_feat, train_label)
 
-  # Classifica cada amostra do seguinte vetor
     predict = clf.predict_proba(test_feat)
+    predict_labels = clf.predict(test_feat)
     
-    print("Rotulos de treino: ", train_label)
     print("Rotulos de teste: ", test_label)
-  # Ele retorna a label que acha que é para cada uma das imagens
-    #print("Predict: ", predict)
- # print("Rotulos de teste: ", test_label)
- # a = 0
- # acertos = 0
-
- #while(a < len(predict)):
-      
-#      if(predict[a] == test_label[a]):
-#          print("Posição do acerto do vetor: ", a) 
-#          acertos += 1 
-        
-#      a += 1
-
+    print("Predict RH: ", predict_labels)
     print("The best parameters with LBP are %s with a score of %0.2f"
         % (clf.best_params_, clf.best_score_))
+       
+    fileLabelLBP = open("labels/predict_LBP.txt","w")
+    
+    for i in range(len(predict_labels)):
+        #if(predict_labels[i] == test_label[i]):
+        fileLabelLBP.write(str(predict_labels[i]+"\n"))
+    fileLabelLBP.close()
+    
     return predict
-
-  #print()
-  #print("Número de acertos: ", acertos)
-  #print("Porcentagem de acerto: ", ((acertos/len(predict))#*100))
   
 def gerarArquivoSVM_LBP():
     
@@ -195,7 +186,8 @@ def gerarArquivoSVM_LBP():
     conteudoSVM = predictSVM_LBP()
     linhas = len(conteudoSVM)
     colunas = len(conteudoSVM[0])
-    print(linhas)
+    
+    print(colunas)
     print(conteudoSVM)
     for i in range(linhas):
       for j in range(colunas):
@@ -212,7 +204,7 @@ def gerarArquivoSVM_RH():
     linhas = len(conteudoSVM)
     colunas = len(conteudoSVM[0])
     
-    print(linhas)
+    print(colunas)
     print(conteudoSVM)
     for i in range(linhas):
       for j in range(colunas):
