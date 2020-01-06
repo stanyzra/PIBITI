@@ -4,7 +4,10 @@ Modos de leitura de arquivos:
 - "w" é de escrita
 - "a" é de escrita, mas começa um arquivo em branco e apaga se já existir
 """
+from sklearn.svm import LinearSVC
 import numpy as np 
+from sklearn.datasets import make_classification
+
 #from sklearn import svm, tree
 from sklearn.svm import SVC
 #from sklearn.neighbors import KNeighborsClassifier
@@ -60,6 +63,26 @@ def predictSVM_RH():
         # Conta mais uma amostra para a próxima rodada do for
         cont += 1    
         
+        
+    fileTextFeat = open("features/train_featRH.txt", "w")
+    linhas = len(train_feat)
+    colunas = len(train_feat[0])
+    
+    cont_feat = 0
+    classe = 0
+    for i in range(linhas):
+        if i > 0 and i % 3 == 0:
+            classe += 1
+            cont = 0
+        if cont_feat < amostras_treino:
+            fileTextFeat.write(str(classe)+" ")
+            cont += 1
+            for j in range(colunas):
+                fileTextFeat.write(str(j)+":"+str(train_feat[i][j])+" ")
+        if(i < linhas):
+          fileTextFeat.write("\n")
+    fileTextFeat.close()
+        
     C_range = np.logspace(-5, 9, 10)
     gamma_range = np.logspace(-9, 3, 5)
 
@@ -75,6 +98,7 @@ def predictSVM_RH():
     predict = clf.predict_proba(test_feat)
     predict_labels = clf.predict(test_feat)
 
+    """
   # Ele retorna a label que acha que é para cada uma das imagens
     #print("Predict: ", predict)
     #fileLabel = open("labels/label_")
@@ -83,7 +107,7 @@ def predictSVM_RH():
     print("Predict RH: ", predict_labels)
     print("The best parameters with RH are %s with a score of %0.2f"
         % (clf.best_params_, clf.best_score_))
-    
+    """
     fileLabelRH = open("labels/predict_RH.txt","w")
 
     for i in range(len(predict_labels)):
@@ -144,26 +168,51 @@ def predictSVM_LBP():
         # Conta mais uma amostra para a próxima rodada do for
         cont += 1    
 
+    fileTextFeat = open("features/train_featLBP.txt", "w")
+    linhas = len(train_feat)
+    colunas = len(train_feat[0])
+    
+    cont_feat = 0
+    classe = 0
+    for i in range(linhas):
+        if i > 0 and i % 3 == 0:
+            classe += 1
+            cont = 0
+        if cont_feat < amostras_treino:
+            fileTextFeat.write(str(classe)+" ")
+            cont += 1
+            for j in range(colunas):
+                fileTextFeat.write(str(j)+":"+str(train_feat[i][j])+" ")
+        if(i < linhas):
+          fileTextFeat.write("\n")
+    fileTextFeat.close()
+
     '''
     Apenas para teste
     '''    
-    # fileLabel = open("labels/labelSVM.txt","w")
-    # fileTrainLabel = open("labels/labelTrain.txt","w")
+    fileLabel = open("labels/labelSVM.txt","w")
+    fileTrainLabel = open("labels/labelTrain.txt","w")
     
-    # for i in range(len(test_label)):
-    #     fileLabel.write(str(test_label[i])+"\n")
-    #     fileTrainLabel.write(str(test_feat[i])+"\n")
+    for i in range(len(test_label)):
+#        if i < 10:
+#            fileLabel.write(str("0"+test_label[i])+"\n")
+#        else:
+#            fileLabel.write(str(test_label[i])+"\n")
+        fileLabel.write(str(test_label[i])+"\n")
+        fileTrainLabel.write(str(test_feat[i])+"\n")
     
-    # fileLabel.close()
-    # fileTrainLabel.close()
+    fileLabel.close()
+    fileTrainLabel.close()
 
 
     C_range = np.logspace(-5, 9, 10)
     gamma_range = np.logspace(-9, 3, 5)
     param_grid = dict(kernel=['rbf'], gamma=gamma_range, C=C_range)
 
+   # train_feat, train_label = make_classification(n_features=4, random_state=0)
+   # clf = LinearSVC(random_state=0, tol=1e-5)
+   # clf = LinearSVC(random_state=0, tol=1e-5)
     clf = GridSearchCV(SVC(probability=True), param_grid)
-    #clf = svm.SVC(kernel='rbf', probability=True)
 
     # Treina o modelo com os vetores de características e o rótulo (classe/identificador) de cada um
     clf.fit(train_feat, train_label)
@@ -175,23 +224,24 @@ def predictSVM_LBP():
     # Gera a taxa de acerto
     # predict = clf.score(test_feat, test_label)
     # print("Taxa de acerto (acurácia):", predict)
-
+    
     # Gera a matriz de probabilidades
-    predict = clf.predict_proba(test_feat)
-    print("Matriz de probabilidades:\n", predict[0])
+    
+    #predict = clf.decision_function(test_feat)
+    #print("Matriz de probabilidades:\n", predict[0])
     
     # gets a dictionary of {'class_name': probability}
-    prob_per_class_dictionary = dict(zip(clf.classes_, predict[0]))
-    print("Prob por classe:\n", prob_per_class_dictionary)
+    #prob_per_class_dictionary = dict(zip(clf.classes_, predict[0]))
+    #print("Prob por classe:\n", prob_per_class_dictionary)
 
     # gets a list of ['most_probable_class', 'second_most_probable_class', ..., 'least_class']
-    results_ordered_by_probability = map(lambda x: x[0], sorted(zip(clf.classes_, predict[0]), key=lambda x: x[1], reverse=True))
-    print("\nProb por classe (ordenado):\n", results_ordered_by_probability)
+    #results_ordered_by_probability = map(lambda x: x[0], sorted(zip(clf.classes_, predict[0]), key=lambda x: x[1], reverse=True))
+    #print("\nProb por classe (ordenado):\n", results_ordered_by_probability)
 
-    """
     predict = clf.predict_proba(test_feat)
-    predict_labels = clf.predict(test_feat)
+    #predict_labels = clf.predict(test_feat)
     
+    """
     print("Rotulos de teste: ", test_label)
     print("Predict RH: ", predict_labels)
     print("The best parameters with LBP are %s with a score of %0.2f"
@@ -203,9 +253,9 @@ def predictSVM_LBP():
         #if(predict_labels[i] == test_label[i]):
         fileLabelLBP.write(str(predict_labels[i]+"\n"))
     fileLabelLBP.close()
+    """
     
     return predict
-    """
     
   
 def gerarArquivoSVM_LBP():
@@ -218,10 +268,20 @@ def gerarArquivoSVM_LBP():
     
     print(colunas)
     print(conteudoSVM)
+    
+    cont = 0
+    amostra_teste = 2
+    classe = 0
     for i in range(linhas):
-      for j in range(colunas):
-          fileSVM.write(str(conteudoSVM[i][j])+" ")
-      if(i < linhas):
+        if i > 0 and i % 2 == 0:
+            classe += 1
+            cont = 0
+        if cont < amostra_teste:
+            fileSVM.write(str(classe)+" ")
+            cont += 1
+            for j in range(colunas):
+                fileSVM.write(str(j)+":"+str(conteudoSVM[i][j])+" ")
+        if(i < linhas):
           fileSVM.write("\n")
     fileSVM.close()
     
@@ -235,13 +295,22 @@ def gerarArquivoSVM_RH():
     
     print(colunas)
     print(conteudoSVM)
+    cont = 0
+    amostra_teste = 2
+    classe = 0
     for i in range(linhas):
-      for j in range(colunas):
-          fileSVM.write(str(conteudoSVM[i][j])+" ")
-      if(i < linhas):
+        if i > 0 and i % 2 == 0:
+            classe += 1
+            cont = 0
+        if cont < amostra_teste:
+            fileSVM.write(str(classe)+" ")
+            cont += 1
+            for j in range(colunas):
+                fileSVM.write(str(j)+":"+str(conteudoSVM[i][j])+" ")
+        if(i < linhas):
           fileSVM.write("\n")
     fileSVM.close()
 
-# gerarArquivoSVM_LBP()
-# gerarArquivoSVM_RH()
+gerarArquivoSVM_LBP()
+gerarArquivoSVM_RH()
 
