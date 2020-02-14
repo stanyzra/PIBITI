@@ -63,7 +63,8 @@ c,g,rate = map(float,last_line.split())
 
 print('Best c={0}, g={1} CV rate={2}'.format(c,g,rate))
 
-cmd = '{0} -c {1} -g {2} "{3}" "{4}"'.format(svmtrain_exe,c,g,scaled_file,model_file)
+cmd = '{0} -c {1} -g {2} -b 0 "{3}" "{4}"'.format(
+	svmtrain_exe, c, g, scaled_file, model_file)
 print('Training...')
 Popen(cmd, shell = True, stdout = PIPE).communicate()
 
@@ -73,7 +74,8 @@ if len(sys.argv) > 2:
 	print('Scaling testing data...')
 	Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-	cmd = '{0} "{1}" "{2}" "{3}"'.format(svmpredict_exe, scaled_test_file, model_file, predict_test_file)
+	# cmd = '{0} "{1}" "{2}" "{3}"'.format(svmpredict_exe, scaled_test_file, model_file, predict_test_file)
+	cmd = '{0} -b 0 "{1}" "{2}" "{3}"'.format(svmpredict_exe, scaled_test_file, model_file, predict_test_file)
 	print('Testing...')
 	Popen(cmd, shell = True).communicate()
 
