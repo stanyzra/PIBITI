@@ -21,7 +21,7 @@ c1 c2 c3 ... cn
 @Saída
 Classe 1:c1 2:c2 3:c3 ... n:cn
 '''
-def features_to_svm_train_test(arquivo_caract, num_caract, num_classes, amostras_por_classe, qtde_treino, qtde_teste):
+def features_to_svm_train_test(arquivo_caract, num_classes, amostras_por_classe, qtde_treino, qtde_teste):
 
     # Abre o arquivo, lê o conteúdo para um vetor e fecha
     arquivo = open(arquivo_caract, "r")
