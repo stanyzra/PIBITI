@@ -21,7 +21,7 @@ c1 c2 c3 ... cn
 @Saída
 Classe 1:c1 2:c2 3:c3 ... n:cn
 '''
-def features_to_svm(arquivo_caract, num_caract, num_classes, amostras_por_classe, qtde_treino, qtde_teste):
+def features_to_svm_train_test(arquivo_caract, num_caract, num_classes, amostras_por_classe, qtde_treino, qtde_teste):
 
     # Abre o arquivo, lê o conteúdo para um vetor e fecha
     arquivo = open(arquivo_caract, "r")
@@ -126,3 +126,57 @@ def features_to_svm(arquivo_caract, num_caract, num_classes, amostras_por_classe
 
     # Fecha o arquivo
     arquivo_teste.close()
+
+
+"""
+@Descrição
+Ler um predict e contar quantas amostras estão corretas
+"""
+def ler_predict(nome_arquivo, amostras_por_classe, classe_inicial=0):
+    
+    # Abre e lê o arquivo
+    arquivo = open(nome_arquivo, "r")
+    conteudo = arquivo.readlines()
+    arquivo.close()
+
+    # Contador de amostras
+    cont = 0
+
+    # Contagem de acertos
+    acertos = 0
+
+    # Contador de classe pra ver se acertou
+    classe_atual = classe_inicial
+
+    # Percorre o arquivo a partir da linha 2 porque a primeira é a de rótulos
+    # E +1 no len porque tem uma linha em branco no final e o len não conta ela
+    for linha in range(1, len(conteudo)):
+
+        # Verifica se a linha não está vazia
+        if conteudo[linha].strip() == "" or conteudo[linha].strip() == "\n":
+            continue
+
+        # Conta uma amostra
+        cont += 1
+
+        # Transforma a linha do predict em vetor
+        predicao = conteudo[linha].split()
+
+        # O primeiro valor é a classe
+        classe = int(predicao[0])
+
+        # Se a classe (int) da amostra for igual a classe atual da contagem, conta 1 acerto
+        if classe == classe_atual:
+            acertos += 1
+
+        # Se a contagem atual for múltipla da quantidade de amostras por classe, incrementa a classe
+        if cont % amostras_por_classe == 0:
+            classe_atual += 1
+    
+    acuracia = float(acertos / cont)
+
+    print("Total de amostras: {}".format(cont))
+    print("Total de acertos: {}".format(acertos))
+    print("Total de acertos: {}/{} equivalente a {:.2f}%".format(acertos, cont, acuracia))
+
+
