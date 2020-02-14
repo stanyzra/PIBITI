@@ -103,7 +103,7 @@ def features_to_svm_train_test(arquivo_caract, num_classes, amostras_por_classe,
     # Fecha o arquivo
     arquivo_treino.close()
 
-    print("Criando arquivo de teste com {} amostra(s) para cada uma das {} classe(s)".format(qtde_treino, num_classes))
+    print("Criando arquivo de teste com {} amostra(s) para cada uma das {} classe(s)".format(qtde_teste, num_classes))
     # Abre o arquivo de saída de treino
     arquivo_teste = open("teste.txt", "w")
 
