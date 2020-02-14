@@ -311,6 +311,3 @@ def gerarArquivoSVM_RH():
           fileSVM.write("\n")
     fileSVM.close()
 
-gerarArquivoSVM_LBP()
-gerarArquivoSVM_RH()
-
