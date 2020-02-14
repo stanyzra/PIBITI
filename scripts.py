@@ -177,6 +177,6 @@ def ler_predict(nome_arquivo, amostras_por_classe, classe_inicial=0):
 
     print("Total de amostras: {}".format(cont))
     print("Total de acertos: {}".format(acertos))
-    print("Total de acertos: {}/{} equivalente a {:.2f}%".format(acertos, cont, acuracia))
+    print("Total de acertos: {}/{} equivalente a {:.3f}%".format(acertos, cont, acuracia))
 
 
