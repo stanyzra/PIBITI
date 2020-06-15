@@ -72,16 +72,57 @@ for i in range(0, n-p):
 
 	vn.append(v1)    
 
-labels_vp = []
-labels_vn = []
+#aqui geramos os arquivos .txt do vetor POSITIVO com sua label e sua respectiva característica
+def gerarArquivoVP():  
+    fileVP = open("features/vetPos.txt","w")
 
-for linha in range(len(vp)):
-    vp.append("1 ")
+    conteudoVp = vp
     
+    linhas = len(conteudoVp)
+    colunas = len(conteudoVp[0])
+   
+    cont = 0
+    amostra_train = 3
+    classe = 0
     
+    for i in range(linhas):
+        if i > 0 and i % 3 == 0:
+            classe += 1
+            cont = 0
+            if cont < amostra_train:
+                #fileSVM.write(str(classe)+" ")
+                cont += 1   
+                for j in range(colunas):
+                    fileVP.write(str(j)+":"+str(conteudoVp[i][j])+" ")
+            if(i < linhas):
+              fileVP.write("\n")
+    fileVP.close()
     
+#aqui geramos os arquivos .txt do vetor NEGATIVO com sua label e sua respectiva característica
+def gerarArquivoVN():
+    fileVN = open("features/vetNeg.txt","w")
+
+    conteudoVn = vn
     
+    linhas = len(conteudoVn)
+    colunas = len(conteudoVn[0])
+           
+    cont = 0
+    amostra_train = 3
+    classe = 0
     
-    
-    
-    
+    for i in range(linhas):
+        if i > 0 and i % 3 == 0:
+            classe += 1
+            cont = 0
+            if cont < amostra_train:
+                #fileSVM.write(str(classe)+" ")
+                cont += 1   
+                for j in range(colunas):
+                    fileVN.write(str(j)+":"+str(conteudoVn[i][j])+" ")
+            if(i < linhas):
+              fileVN.write("\n")
+    fileVN.close()
+
+gerarArquivoVP()
+gerarArquivoVN()   
