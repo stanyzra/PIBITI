@@ -98,7 +98,7 @@ def predictSVM_RH():
     predict = clf.predict_proba(test_feat)
     predict_labels = clf.predict(test_feat)
 
-    """
+    
   # Ele retorna a label que acha que é para cada uma das imagens
     #print("Predict: ", predict)
     #fileLabel = open("labels/label_")
@@ -107,7 +107,7 @@ def predictSVM_RH():
     print("Predict RH: ", predict_labels)
     print("The best parameters with RH are %s with a score of %0.2f"
         % (clf.best_params_, clf.best_score_))
-    """
+    
     fileLabelRH = open("labels/predict_RH.txt","w")
 
     for i in range(len(predict_labels)):
@@ -239,9 +239,9 @@ def predictSVM_LBP():
     #print("\nProb por classe (ordenado):\n", results_ordered_by_probability)
 
     predict = clf.predict_proba(test_feat)
-    #predict_labels = clf.predict(test_feat)
+    predict_labels = clf.predict(test_feat)
     
-    """
+    
     print("Rotulos de teste: ", test_label)
     print("Predict RH: ", predict_labels)
     print("The best parameters with LBP are %s with a score of %0.2f"
@@ -253,7 +253,7 @@ def predictSVM_LBP():
         #if(predict_labels[i] == test_label[i]):
         fileLabelLBP.write(str(predict_labels[i]+"\n"))
     fileLabelLBP.close()
-    """
+    
     
     return predict
     
@@ -310,4 +310,8 @@ def gerarArquivoSVM_RH():
         if(i < linhas):
           fileSVM.write("\n")
     fileSVM.close()
+    
+gerarArquivoSVM_LBP()
+gerarArquivoSVM_RH()
+    
 
