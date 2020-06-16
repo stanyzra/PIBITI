@@ -83,7 +83,6 @@ def gerarArquivoVP():
     cont = 0
     amostra_train = 3
     classe = 0
-    contCol = 0
     
     for i in range(linhas):
         if i > 0 and i % 3 == 0:
@@ -93,10 +92,7 @@ def gerarArquivoVP():
                 #fileVP.write(str(classe)+" ")
                 cont += 1   
                 for j in range(colunas):
-                    fileVP.write(str(contCol+1)+":"+str(conteudoVp[i][j])+" ")
-                    contCol += 1
-                    if j > colunas:
-                        contCol = j
+                    fileVP.write(str(j+1)+":"+str(conteudoVp[i][j])+" ")
             if(i < linhas):
               fileVP.write("\n")
     fileVP.close()
@@ -113,7 +109,6 @@ def gerarArquivoVN():
     cont = 0
     amostra_train = 3
     classe = 0
-    contCol = 0
     
     for i in range(linhas):
         if i > 0 and i % 3 == 0:
@@ -123,10 +118,7 @@ def gerarArquivoVN():
                 #fileVN.write(str(classe)+" ")
                 cont += 1   
                 for j in range(colunas):
-                    fileVN.write(str(contCol+1)+":"+str(conteudoVn[i][j])+" ")
-                    contCol += 1
-                    if j > colunas:
-                        contCol = j
+                    fileVN.write(str(j+1)+":"+str(conteudoVn[i][j])+" ")
             if(i < linhas):
               fileVN.write("\n")
     fileVN.close()
