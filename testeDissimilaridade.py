@@ -124,6 +124,7 @@ def gerarArquivoVN():
                 cont += 1   
                 for j in range(colunas):
                     fileVN.write(str(contCol+1)+":"+str(conteudoVn[i][j])+" ")
+                    contCol += 1
                     if j > colunas:
                         contCol = j
             if(i < linhas):
