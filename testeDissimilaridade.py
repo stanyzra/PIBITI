@@ -1,46 +1,13 @@
 import numpy as np
-"""
-filePos = open("features/vetPos.txt", "r")
-fileNeg = open("features/vetNeg.txt", "r")
 
-conteudoPos = filePos.readlines()
-conteudoNeg = fileNeg.readlines()
-
-filePos.close()
-fileNeg.close()
-
-conteudoVet = []
-vet = []
-contCol = 0
-
-for i in range(len(conteudoPos)):
-    conteudoVet.append(conteudoPos[i].split())
-    colunas = len(conteudoVet[0])
-    for j in range(colunas):
-        if j < colunas:
-            #conteudoVet.append(conteudoPos[i].replace(":",""))
-            contCol = str(j)+":"
-            conteudoPos[i].replace(contCol,"")
-
-          
-for i in range(len(conteudoNeg)):
-    conteudoVet.append(conteudoNeg[i].split())
-    contCol = len(conteudoVet[0])
-
-
-#x = np.array(conteudoVet)
-
-for i in range(len(conteudoVet)):
-    for j in range(len(conteudoVet)):
-        vet_test = np.float16(conteudoVet[i].replace(conteudoVet[0],"").replace(" ","").split(":")) - np.float16(conteudoVet[j].replace(conteudoVet[0],"").replace(" ","").split(":"))
-
-"""
 def teste(vetor_teste):
     
     x = np.array(vetor_teste)
     vetor_diss = []
     linha = len(x)
-    
+    print(range(linha))
+    #print(range(len(linha)))
+    """
     for i in range(linha):
         for j in range(linha):
 #            if i == j:
@@ -72,4 +39,4 @@ def teste(vetor_teste):
             if(i < linhas):
               file_vetor_diss.write("\n")
     file_vetor_diss.close()
-       
+       """
