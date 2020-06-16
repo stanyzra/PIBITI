@@ -52,7 +52,6 @@ p = 3
 # vp é o array de vetores positivos
 vp = []
 x = np.array(train_feat)
-
 for i in range(0, n, p):
     
     v1 = np.float16(x[i]) - np.float16(x[i+1]) 
@@ -62,7 +61,7 @@ for i in range(0, n, p):
     vp.append(v1)
     vp.append(v2)
     vp.append(v3)
-        
+    
 # vp é o array de vetores negativos
 vn = []
 
@@ -84,16 +83,20 @@ def gerarArquivoVP():
     cont = 0
     amostra_train = 3
     classe = 0
+    contCol = 0
     
     for i in range(linhas):
         if i > 0 and i % 3 == 0:
             classe += 1
             cont = 0
             if cont < amostra_train:
-                #fileSVM.write(str(classe)+" ")
+                #fileVP.write(str(classe)+" ")
                 cont += 1   
                 for j in range(colunas):
-                    fileVP.write(str(j)+":"+str(conteudoVp[i][j])+" ")
+                    fileVP.write(str(contCol+1)+":"+str(conteudoVp[i][j])+" ")
+                    contCol += 1
+                    if j > colunas:
+                        contCol = j
             if(i < linhas):
               fileVP.write("\n")
     fileVP.close()
@@ -110,16 +113,19 @@ def gerarArquivoVN():
     cont = 0
     amostra_train = 3
     classe = 0
+    contCol = 0
     
     for i in range(linhas):
         if i > 0 and i % 3 == 0:
             classe += 1
             cont = 0
             if cont < amostra_train:
-                #fileSVM.write(str(classe)+" ")
+                #fileVN.write(str(classe)+" ")
                 cont += 1   
                 for j in range(colunas):
-                    fileVN.write(str(j)+":"+str(conteudoVn[i][j])+" ")
+                    fileVN.write(str(contCol+1)+":"+str(conteudoVn[i][j])+" ")
+                    if j > colunas:
+                        contCol = j
             if(i < linhas):
               fileVN.write("\n")
     fileVN.close()
