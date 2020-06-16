@@ -89,7 +89,7 @@ def gerarArquivoVP():
             classe += 1
             cont = 0
             if cont < amostra_train:
-                #fileVP.write(str(classe)+" ")
+                fileVP.write("0 ")
                 cont += 1   
                 for j in range(colunas):
                     fileVP.write(str(j+1)+":"+str(conteudoVp[i][j])+" ")
@@ -115,7 +115,7 @@ def gerarArquivoVN():
             classe += 1
             cont = 0
             if cont < amostra_train:
-                #fileVN.write(str(classe)+" ")
+                fileVN.write("1 ")
                 cont += 1   
                 for j in range(colunas):
                     fileVN.write(str(j+1)+":"+str(conteudoVn[i][j])+" ")
