@@ -5,9 +5,9 @@ def teste(vetor_teste):
     x = np.array(vetor_teste)
     vetor_diss = []
     linha = len(x)
-    print(range(linha))
+    #print(range(linha))
     #print(range(len(linha)))
-    """
+    
     for i in range(linha):
         for j in range(linha):
 #            if i == j:
@@ -16,7 +16,7 @@ def teste(vetor_teste):
             vetor_diss.append(v)
             
    #print(vetor_diss)
-    file_vetor_diss = open("predicts/vetor_diss.txt","w")
+    file_vetor_diss = open(".gitignore/vetor_diss.txt","w")
    
     conteudo_diss = vetor_diss
     
@@ -39,4 +39,4 @@ def teste(vetor_teste):
             if(i < linhas):
               file_vetor_diss.write("\n")
     file_vetor_diss.close()
-       """
+       
