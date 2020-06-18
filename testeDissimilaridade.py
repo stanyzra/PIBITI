@@ -16,7 +16,7 @@ def teste(vetor_teste):
             vetor_diss.append(v)
             
    #print(vetor_diss)
-    file_vetor_diss = open(".gitignore/vetor_diss.txt","w")
+    file_vetor_diss = open("vetor_diss_teste.txt","w")
    
     conteudo_diss = vetor_diss
     
