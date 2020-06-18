@@ -22,21 +22,20 @@ def teste(vetor_teste):
     
     linhas = len(conteudo_diss)
     colunas = len(conteudo_diss[0])
-   
-    cont = 0
-    amostra_test = 2
-    classe = 0
-    
+
+    num_amostras_teste = 160
+  
     for i in range(linhas):
-        if i > 0 and i % 2 == 0:
-            classe += 1
-            cont = 0
-            if cont < amostra_test:
-                file_vetor_diss.write("0 ")
-                cont += 1   
-                for j in range(colunas):
-                    file_vetor_diss.write(str(j+1)+":"+str(conteudo_diss[i][j])+" ")
-            if(i < linhas):
-              file_vetor_diss.write("\n")
+        cont = 1
+
+        file_vetor_diss.write("0")
+
+        for j in range(colunas):
+
+            file_vetor_diss.write(" {}:{}".format(cont, conteudo_diss[i][j]))
+
+        if i < num_amostras_teste*num_amostras_teste:
+            file_vetor_diss.write("\n")
+
     file_vetor_diss.close()
        
