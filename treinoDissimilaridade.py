@@ -1,5 +1,5 @@
 import numpy as np
-import testeDissimilaridade
+import gerar_arq_diss, testeDissimilaridade
 
 fileh = open("features/mfcc50.txt", "r")
     
@@ -67,14 +67,14 @@ for i in range(0, n, p):
 vn = []
 
 for i in range(0, n-p):
-
+    
 	v1 = np.float16(x[i]) - np.float16(x[i+p])
 
 	vn.append(v1)    
 
 #aqui geramos os arquivos .txt do vetor POSITIVO com sua label e sua respectiva característica
-def gerarArquivoVP():  
-    fileVP = open("features/vetPos.txt","w")
+def gerarArquivoTreino():  
+    fileVP = open("vetTreino.txt","w")
 
     conteudoVp = vp
     
@@ -97,6 +97,31 @@ def gerarArquivoVP():
             if(i < linhas):
               fileVP.write("\n")
     fileVP.close()
+    
+    fileVN = open("vetTreino.txt","a")
+
+    conteudoVn = vn
+    
+    linhas = len(conteudoVn)
+    colunas = len(conteudoVn[0])
+           
+    cont = 0
+    amostra_train = 3
+    classe = 0
+    
+    for i in range(linhas):
+        if i > 0 and i % 3 == 0:
+            classe += 1
+            cont = 0
+            if cont < amostra_train:
+                fileVN.write("1 ")
+                cont += 1   
+                for j in range(colunas):
+                    fileVN.write(str(j+1)+":"+str(conteudoVn[i][j])+" ")
+            if(i < linhas):
+              fileVN.write("\n")
+    fileVN.close()
+    
     
 #aqui geramos os arquivos .txt do vetor NEGATIVO com sua label e sua respectiva característica
 def gerarArquivoVN():
@@ -124,6 +149,7 @@ def gerarArquivoVN():
               fileVN.write("\n")
     fileVN.close()
 
-gerarArquivoVP()
-gerarArquivoVN()   
-testeDissimilaridade.teste(test_feat)
+gerarArquivoTreino()
+#gerarArquivoVN()   
+#gerar_arq_diss.gerar(test_feat)
+#testeDissimilaridade.teste()

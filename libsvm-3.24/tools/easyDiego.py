@@ -9,7 +9,7 @@ import timeit
 time_start = timeit.default_timer()
 
 if len(sys.argv) <= 1:
-	print 'Usage: %s training_file [testing_file]' % sys.argv[0]
+	print('Usage: %s training_file [testing_file]') % sys.argv[0]
 	raise SystemExit
 
 # svm, grid, and gnuplot executable
@@ -51,11 +51,11 @@ if len(sys.argv) > 2:
 	predict_test_file = file_name + ".predict"
 
 cmd = "%s -s %s %s > %s" % (svmscale_exe, range_file, train_pathname, scaled_file)
-print 'Scaling training data...'
+print ('Scaling training data...')
 os.system(cmd)
 
 cmd = "python %s -svmtrain %s -gnuplot %s %s" % (grid_py, svmtrain_exe, gnuplot_exe, scaled_file)
-print 'Cross validation...'  #raw_input("Press any Key")
+print ('Cross validation...')  #raw_input("Press any Key")
 dummy, f = os.popen2(cmd)
 
 line = ''
@@ -65,23 +65,23 @@ while 1:
 	if not line: break
 c,g,rate = map(float,last_line.split())
 
-print 'Best c=%s, g=%s CV rate=%s' % (c,g,rate)
+print ('Best c=%s, g=%s CV rate=%s') % (c,g,rate)
 
 cmd = "%s -c %s -g %s -b 1 %s %s" % (svmtrain_exe,c,g,scaled_file,model_file)
-print 'Training...'
+print ('Training...')
 os.popen(cmd)
 
-print 'Output model: %s' % model_file
+print ('Output model: %s') % model_file
 if len(sys.argv) > 2:
 	cmd = "%s -r %s %s > %s" % (svmscale_exe, range_file, test_pathname, scaled_test_file)
-	print 'Scaling testing data...'
+	print ('Scaling testing data...')
 	os.system(cmd)
 
 	cmd = "%s -b 1 %s %s %s" % (svmpredict_exe, scaled_test_file, model_file, predict_test_file)
-	print 'Testing...'
+	print ('Testing...')
 	os.system(cmd)
 
-	print 'Output prediction: %s' % predict_test_file
+	print ('Output prediction: %s') % predict_test_file
 
 # Contagem de tempo
 # Rafael Zottesso - 28/02/15
@@ -93,9 +93,9 @@ minutes = (hours - int(hours)) * 60
 seconds = int( (minutes - int(minutes)) / 60 )
 hours = int(hours)
 '''
-print 'Tempo de processamento (multicores): ', 
+print ('Tempo de processamento (multicores): '), 
 
 if time > 3600.0:
     print (time / 3600.0), 'horas.'
 else:
-  print time, 'segundos.'
+  print (time), 'segundos.'

@@ -1,41 +1,8 @@
 import numpy as np
 
-def teste(vetor_teste):
+def teste():
+
+    conteudo = open("vetor_diss_teste.txt","r")
     
-    x = np.array(vetor_teste)
-    vetor_diss = []
-    linha = len(x)
-    #print(range(linha))
-    #print(range(len(linha)))
+    vetDiss = np.array(conteudo.readlines())
     
-    for i in range(linha):
-        for j in range(linha):
-#            if i == j:
-#                continue
-            v = np.float16(x[i]) - np.float16(x[j])
-            vetor_diss.append(v)
-            
-   #print(vetor_diss)
-    file_vetor_diss = open("vetor_diss_teste.txt","w")
-   
-    conteudo_diss = vetor_diss
-    
-    linhas = len(conteudo_diss)
-    colunas = len(conteudo_diss[0])
-
-    num_amostras_teste = 160
-  
-    for i in range(linhas):
-        cont = 1
-
-        file_vetor_diss.write("0")
-
-        for j in range(colunas):
-
-            file_vetor_diss.write(" {}:{}".format(cont, conteudo_diss[i][j]))
-
-        if i < num_amostras_teste*num_amostras_teste:
-            file_vetor_diss.write("\n")
-
-    file_vetor_diss.close()
-       
