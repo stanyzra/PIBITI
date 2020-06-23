@@ -1,8 +1,8 @@
 import numpy as np
 
-def teste():
+#def teste():
 
-    conteudo = open("vetor_diss_teste.txt","r")
+#    conteudo = open("vetor_diss_teste.txt","r")
     
-    vetDiss = np.array(conteudo.readlines())
+#    vetDiss = np.array(conteudo.readlines())
     
