@@ -81,21 +81,18 @@ def gerarArquivoTreino():
     linhas = len(conteudoVp)
     colunas = len(conteudoVp[0])
    
-    cont = 0
-    amostra_train = 3
     classe = 0
     
     for i in range(linhas):
-        if i > 0 and i % 3 == 0:
-            classe += 1
-            cont = 0
-            if cont < amostra_train:
-                fileVP.write("0 ")
-                cont += 1   
-                for j in range(colunas):
-                    fileVP.write(str(j+1)+":"+str(conteudoVp[i][j])+" ")
-            if(i < linhas):
-              fileVP.write("\n")
+        cont = 1
+        fileVP.write("0 ")
+        
+        for j in range(colunas):
+            fileVP.write("{}:{} ".format(cont, conteudoVp[i][j]))
+        
+        fileVP.write("\n")
+        cont += 1   
+
     fileVP.close()
     
     fileVN = open("vetTreino.txt","a")
@@ -105,21 +102,16 @@ def gerarArquivoTreino():
     linhas = len(conteudoVn)
     colunas = len(conteudoVn[0])
            
-    cont = 0
-    amostra_train = 3
-    classe = 0
-    
     for i in range(linhas):
-        if i > 0 and i % 3 == 0:
-            classe += 1
-            cont = 0
-            if cont < amostra_train:
-                fileVN.write("1 ")
-                cont += 1   
-                for j in range(colunas):
-                    fileVN.write(str(j+1)+":"+str(conteudoVn[i][j])+" ")
-            if(i < linhas):
-              fileVN.write("\n")
+        cont = 1
+        fileVP.write("1 ")
+
+        for j in range(colunas):
+            fileVP.write("{}:{} ".format(cont, conteudoVp[i][j]))
+
+        fileVP.write("\n")
+        cont += 1
+
     fileVN.close()
     
     

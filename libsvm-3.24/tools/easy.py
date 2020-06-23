@@ -72,7 +72,7 @@ if len(sys.argv) > 2:
 	print('Scaling testing data...')
 	Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-	cmd = '{0} "{1}" "{2}" "{3}"'.format(svmpredict_exe, scaled_test_file, model_file, predict_test_file)
+	cmd = '{0} -b 1  "{1}" "{2}" "{3}"'.format(svmpredict_exe, scaled_test_file, model_file, predict_test_file)
 	print('Testing...')
 	Popen(cmd, shell = True).communicate()
 
