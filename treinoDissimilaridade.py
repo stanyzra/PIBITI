@@ -151,5 +151,5 @@ def gerarArquivoVN():
 
 gerarArquivoTreino()
 #gerarArquivoVN()   
-#gerar_arq_diss.gerar(test_feat)
+gerar_arq_diss.gerar(test_feat)
 #testeDissimilaridade.teste()
