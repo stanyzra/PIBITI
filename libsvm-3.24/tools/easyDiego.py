@@ -2,6 +2,7 @@
 
 import sys
 import os
+from subprocess import *
 
 # Apenas para contagem de tempo
 # Rafael Zottesso - 28/02/15
@@ -9,7 +10,7 @@ import timeit
 time_start = timeit.default_timer()
 
 if len(sys.argv) <= 1:
-	print('Usage: %s training_file [testing_file]' % sys.argv[0]
+	print('Usage: %s training_file [testing_file]' % sys.argv[0])
 	raise SystemExit
 
 # svm, grid, and gnuplot executable
@@ -23,12 +24,12 @@ if not is_win32:
 	grid_py = "./grid.py"
 	gnuplot_exe = "/usr/bin/gnuplot"
 else:
-        # example for windows
-	svmscale_exe = r"svm-scale.exe"
-	svmtrain_exe = r"svm-train.exe"
-	svmpredict_exe = r"svm-predict.exe"
-	gnuplot_exe = r"pgnuplot.exe"
-	grid_py = r"grid.py"
+    # example for windows
+    svmscale_exe = r"..\windows\svm-scale.exe"
+    svmtrain_exe = r"..\windows\svm-train.exe"
+    svmpredict_exe = r"..\windows\svm-predict.exe"
+    gnuplot_exe = r"c:\tmp\gnuplot\binary\pgnuplot.exe"
+    grid_py = r".\grid.py"
 
 assert os.path.exists(svmscale_exe),"svm-scale executable not found"
 assert os.path.exists(svmtrain_exe),"svm-train executable not found"
@@ -56,7 +57,7 @@ os.system(cmd)
 
 cmd = "python %s -svmtrain %s -gnuplot %s %s" % (grid_py, svmtrain_exe, gnuplot_exe, scaled_file)
 print('Cross validation...')  #raw_input("Press any Key")
-dummy, f = os.popen2(cmd)
+f = Popen(cmd, shell = True, stdout = PIPE).stdout
 
 line = ''
 while 1:

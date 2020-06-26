@@ -28,6 +28,7 @@ test_feat = []
 # Criação das labens (rótulos/classes) para o classificador
 test_label = []
 
+print("Separando as amostras de treino e de teste...")
 for linha in range(len(conteudo)):
     
     # A cada 5 amostras troca-se a pessoa
@@ -53,26 +54,42 @@ p = 3
 # vp é o array de vetores positivos
 vp = []
 x = np.array(train_feat)
+#x = [[1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7], [8, 8, 8], [9, 9, 9], [10, 10, 10], [11, 11, 11], [12, 12, 12]]
+print("Criando vetores positivos...")
+print("Subtração de i - i+1")
+print("Subtração de i - i+2")
+print("Subtração de i+1 - i+2")
+
 for i in range(0, n, p):
-    
+    #print("Contador positivo: {}".format(i))
+    print(i)
     v1 = np.float16(x[i]) - np.float16(x[i+1]) 
+    print("v1: {}".format(v1))
     v2 = np.float16(x[i]) - np.float16(x[i+2])
+    print("v2: {}".format(v2))
     v3 = np.float16(x[i+1]) - np.float16(x[i+2])
-	
+    print("v3: {}".format(v3))
+    
     vp.append(v1)
     vp.append(v2)
     vp.append(v3)
     
+print("contador: {}".format(i))
 # vn é o array de vetores negativos
 vn = []
-
+print("Criando vetores negativos...")
+print("Subtração de i - i+p")
 for i in range(0, n-p):
+    print("Contador negativo: {}".format(i))
+    v1 = np.float16(x[i]) - np.float16(x[i+p])
+    print("n-p: {}".format(n-p))
+    print("v1: {}".format(v1))
     
-	v1 = np.float16(x[i]) - np.float16(x[i+p])
-
-	vn.append(v1)    
-
+    vn.append(v1) 
+    
+print("contador: {}".format(i))
 #aqui geramos os arquivos .txt do vetor POSITIVO com sua label e sua respectiva característica
+    
 def gerarArquivoTreino():  
     fileVP = open("vetTreino.txt","w")
 
@@ -80,18 +97,16 @@ def gerarArquivoTreino():
     
     linhas = len(conteudoVp)
     colunas = len(conteudoVp[0])
-   
-    classe = 0
-    
+       
     for i in range(linhas):
         cont = 1
         fileVP.write("0 ")
         
         for j in range(colunas):
             fileVP.write("{}:{} ".format(cont, conteudoVp[i][j]))
-        
+            cont += 1   
+
         fileVP.write("\n")
-        cont += 1   
 
     fileVP.close()
     
@@ -104,44 +119,17 @@ def gerarArquivoTreino():
            
     for i in range(linhas):
         cont = 1
-        fileVP.write("1 ")
+        fileVN.write("1 ")
 
         for j in range(colunas):
-            fileVP.write("{}:{} ".format(cont, conteudoVp[i][j]))
+            fileVN.write("{}:{} ".format(cont, conteudoVn[i][j]))
+            cont += 1   
 
-        fileVP.write("\n")
-        cont += 1
+        fileVN.write("\n")
 
-    fileVN.close()
-    
-    
-#aqui geramos os arquivos .txt do vetor NEGATIVO com sua label e sua respectiva característica
-def gerarArquivoVN():
-    fileVN = open("features/vetNeg.txt","w")
-
-    conteudoVn = vn
-    
-    linhas = len(conteudoVn)
-    colunas = len(conteudoVn[0])
-           
-    cont = 0
-    amostra_train = 3
-    classe = 0
-    
-    for i in range(linhas):
-        if i > 0 and i % 3 == 0:
-            classe += 1
-            cont = 0
-            if cont < amostra_train:
-                fileVN.write("1 ")
-                cont += 1   
-                for j in range(colunas):
-                    fileVN.write(str(j+1)+":"+str(conteudoVn[i][j])+" ")
-            if(i < linhas):
-              fileVN.write("\n")
     fileVN.close()
 
 gerarArquivoTreino()
-#gerarArquivoVN()   
-gerar_arq_diss.gerar(test_feat)
+#print("gerando arquivo de treino...")  
+#gerar_arq_diss.gerar(test_feat)
 #testeDissimilaridade.teste()
