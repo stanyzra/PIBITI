@@ -1,7 +1,8 @@
 import numpy as np
-import gerar_arq_diss, testeDissimilaridade
+import gerar_arq_diss
 
-fileh = open("features/rh.txt", "r")
+
+fileh = open("features/lbp.txt", "r")
     
 conteudo = fileh.readlines()
 
@@ -135,4 +136,4 @@ gerarArquivoTreino()
 print("gerando arquivo de treino...")  
 gerar_arq_diss.gerar(test_feat)
 print("fim")
-#testeDissimilaridade.teste()
+

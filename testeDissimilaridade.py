@@ -2,15 +2,18 @@ import numpy as np
 import os
 
 # Executa o LIBSVM
-# arq_treino = 'vetTreino.txt'
-# arq_teste = 'vetor_diss_teste.txt'
-# comando = 'python ./easyDiego.py ../../{} ../../{}'.format(arq_treino, arq_teste)
-# print(comando)
-# os.system('cd lilibsvm-3.24/tools/')
-# os.system(comando)
-# os.system('cd ../../')
+arq_treino = 'vetTreino.txt'
+arq_teste = 'vetor_diss_teste.txt'
+comando = 'python ./easyDiego.py ../../{} ../../{}'.format(arq_treino, arq_teste)
+print(comando)
+os.chdir('./libsvm-3.24/tools/')
+print("Executando SVM, aguarde...")
+os.system(comando)
+os.chdir('./../../')
+print("SVM Finalizado...")
 
 
+print("Contando resultado...")
 fileDiss = open("libsvm-3.24/tools/vetor_diss_teste.txt.predict","r")
 conteudoDiss = fileDiss.readlines()
 fileDiss.close()
