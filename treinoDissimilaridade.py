@@ -1,7 +1,7 @@
 import numpy as np
 import gerar_arq_diss, testeDissimilaridade
 
-fileh = open("features/lbp.txt", "r")
+fileh = open("features/rh.txt", "r")
     
 conteudo = fileh.readlines()
 
