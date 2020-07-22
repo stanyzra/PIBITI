@@ -1,5 +1,5 @@
 import numpy as np
-
+"""
 fileDiss = open("libsvm-3.24/tools/vetor_diss_teste.txt.predict","r")
 
 conteudoDiss = fileDiss.readlines()
@@ -65,6 +65,75 @@ for i in range(1, linhas, p):
     pos_vetor += 160
     
 print("Acertos: {}/160 = {}%".format(acertos, (acertos/160)*100))
+"""
+fileDiss = open("libsvm-3.24/tools/vetor_diss_teste.txt.predict","r")
+
+conteudoDiss = fileDiss.readlines()
+
+fileDiss.close()
+
+
+linhas = len(conteudoDiss)
+p = 8 #passo
+pos_vetor = 0
+
+vetDiss = [] #vetor que separa as caracteristicas em colunas para facilitar as operações
+
+for i in range(linhas):
+    np.array(vetDiss.append(conteudoDiss[i].split()))
+
+
+vetPos = []
+colunas = len(vetDiss[0])
+
+#print(np.argmax(vetDiss[2]))
+
+# Dados para  calcular a acurácia
+acertos = 0
+total_amostras = 20
+
+# Para verificar se a amostra foi classificada corretamente, faz esse passo
+# para verificar qual a maior probabilidade de ser positivo
+# Posição do vetor que é ele - ele: 1, 162, 323, 484... +161
+for i in range(1, linhas, p):
+
+    # vetor que é ele - ele    
+    pos_vetor += 1
+    
+    # Encontrar a posição do vetor que deve ser o maior acerto positivo
+    if pos_vetor %2 == 0:
+        certo_pos = pos_vetor-1
+    else:
+        certo_pos = pos_vetor+1
+        
+    # Variáveis para encontrar onde está o maior acerto positivo
+    maior_pos = 0
+    maior_taxa = 0
+    
+    # Percorre os 160 vetores para saber qual é o maior acerto positivo
+    # Faz um for com base no intervalo
+    for j in range(i, i+8): #de 1 até 160, pois a linha 0 são as labels
+    
+        if j == pos_vetor:
+            pass
+    
+        if float(vetDiss[j][1]) > maior_taxa:
+            maior_taxa = float(vetDiss[j][1])
+            maior_pos = j
+            
+    print("Posição do maior {} com taxa {}".format(maior_pos, maior_taxa))
+            
+    if maior_pos == certo_pos:
+        acertos += 1
+        print("acertou")
+            
+    print("Vetor atual {}, onde ver o vetor certo {}, Maior posição {}".format(pos_vetor, certo_pos, maior_pos))
+            
+    pos_vetor += 8
+    
+print("Acertos: {}/20 = {}%".format(acertos, (acertos/20)*100))
+
+
 """
 
 Vetores de características

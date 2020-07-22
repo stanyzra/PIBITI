@@ -1,7 +1,7 @@
 import numpy as np
 import gerar_arq_diss, testeDissimilaridade
 
-fileh = open("features/mfcc50.txt", "r")
+fileh = open("features/arquivoTeste.txt", "r")
     
 conteudo = fileh.readlines()
 
@@ -48,7 +48,7 @@ for linha in range(len(conteudo)):
     cont += 1
 
 # n é o numero de amostras do treinamento
-n = 240
+n = 12
 # p é a quantidade de amostras por pessoa
 p = 3
 # vp é o array de vetores positivos
@@ -130,6 +130,6 @@ def gerarArquivoTreino():
     fileVN.close()
 
 gerarArquivoTreino()
-#print("gerando arquivo de treino...")  
-#gerar_arq_diss.gerar(test_feat)
+print("gerando arquivo de treino...")  
+gerar_arq_diss.gerar(test_feat)
 #testeDissimilaridade.teste()
