@@ -1,7 +1,7 @@
 import numpy as np
 import gerar_arq_diss, testeDissimilaridade
 
-fileh = open("features/arquivoTeste.txt", "r")
+fileh = open("features/lbp.txt", "r")
     
 conteudo = fileh.readlines()
 
@@ -47,8 +47,10 @@ for linha in range(len(conteudo)):
     # Conta mais uma amostra para a próxima rodada do for
     cont += 1
 
+# Número total de classes
+num_classes = 80
 # n é o numero de amostras do treinamento
-n = 12
+n = 3 * num_classes
 # p é a quantidade de amostras por pessoa
 p = 3
 # vp é o array de vetores positivos
@@ -63,11 +65,11 @@ print("Subtração de i+1 - i+2")
 for i in range(0, n, p):
     #print("Contador positivo: {}".format(i))
     print(i)
-    v1 = np.float16(x[i]) - np.float16(x[i+1]) 
+    v1 = abs(np.float16(x[i]) - np.float16(x[i+1]))
     print("v1: {}".format(v1))
-    v2 = np.float16(x[i]) - np.float16(x[i+2])
+    v2 = abs(np.float16(x[i]) - np.float16(x[i+2]))
     print("v2: {}".format(v2))
-    v3 = np.float16(x[i+1]) - np.float16(x[i+2])
+    v3 = abs(np.float16(x[i+1]) - np.float16(x[i+2]))
     print("v3: {}".format(v3))
     
     vp.append(v1)
@@ -81,7 +83,7 @@ print("Criando vetores negativos...")
 print("Subtração de i - i+p")
 for i in range(0, n-p):
     print("Contador negativo: {}".format(i))
-    v1 = np.float16(x[i]) - np.float16(x[i+p])
+    v1 = abs(np.float16(x[i]) - np.float16(x[i+p]))
     print("n-p: {}".format(n-p))
     print("v1: {}".format(v1))
     
@@ -132,4 +134,5 @@ def gerarArquivoTreino():
 gerarArquivoTreino()
 print("gerando arquivo de treino...")  
 gerar_arq_diss.gerar(test_feat)
+print("fim")
 #testeDissimilaridade.teste()

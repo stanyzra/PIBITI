@@ -12,7 +12,7 @@ def gerar(vetor_teste):
         for j in range(linha):
 #            if i == j:
 #                continue
-            v = np.float16(x[i]) - np.float16(x[j])
+            v = abs(np.float16(x[i]) - np.float16(x[j]))
             vetor_diss.append(v)
             
    #print(vetor_diss)
@@ -35,6 +35,7 @@ def gerar(vetor_teste):
 
             file_vetor_diss.write(" {}:{}".format(cont, conteudo_diss[i][j]))
             cont += 1
+            
         if i < num_amostras_teste*num_amostras_teste:
             file_vetor_diss.write("\n")
 

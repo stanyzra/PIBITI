@@ -67,38 +67,40 @@ for i in range(1, linhas, p):
 print("Acertos: {}/160 = {}%".format(acertos, (acertos/160)*100))
 """
 fileDiss = open("libsvm-3.24/tools/vetor_diss_teste.txt.predict","r")
-
 conteudoDiss = fileDiss.readlines()
-
 fileDiss.close()
 
-
+# Converte as linhas de string para matriz
 linhas = len(conteudoDiss)
-p = 8 #passo
-pos_vetor = 0
-
 vetDiss = [] #vetor que separa as caracteristicas em colunas para facilitar as operações
-
 for i in range(linhas):
     np.array(vetDiss.append(conteudoDiss[i].split()))
 
 
-vetPos = []
-colunas = len(vetDiss[0])
-
+# Função para encontrar posição do maior valor
 #print(np.argmax(vetDiss[2]))
 
+# Conta as colunas do arquivo: % classe1 classe2 .... classeN
+colunas = len(vetDiss[0])
 # Dados para  calcular a acurácia
 acertos = 0
-total_amostras = 20
+# Total de amostras no teste, não o total de vetores de dissimilaridade no teste
+total_amostras = 160
+# Passo é igual o total de amostras
+p = total_amostras
+# Posição correta do vetor positivo
+pos_vetor = 0
 
 # Para verificar se a amostra foi classificada corretamente, faz esse passo
 # para verificar qual a maior probabilidade de ser positivo
 # Posição do vetor que é ele - ele: 1, 162, 323, 484... +161
 for i in range(1, linhas, p):
-
+    
     # vetor que é ele - ele    
     pos_vetor += 1
+
+    # Zera a % do vetor que é ele - ele
+    vetDiss[pos_vetor] = ['0']*colunas
     
     # Encontrar a posição do vetor que deve ser o maior acerto positivo
     if pos_vetor %2 == 0:
@@ -112,7 +114,7 @@ for i in range(1, linhas, p):
     
     # Percorre os 160 vetores para saber qual é o maior acerto positivo
     # Faz um for com base no intervalo
-    for j in range(i, i+8): #de 1 até 160, pois a linha 0 são as labels
+    for j in range(i, i+total_amostras): #de 1 até 160, pois a linha 0 são as labels
     
         if j == pos_vetor:
             pass
@@ -129,9 +131,9 @@ for i in range(1, linhas, p):
             
     print("Vetor atual {}, onde ver o vetor certo {}, Maior posição {}".format(pos_vetor, certo_pos, maior_pos))
             
-    pos_vetor += 8
+    pos_vetor += total_amostras
     
-print("Acertos: {}/20 = {}%".format(acertos, (acertos/20)*100))
+print("Acertos: {}/{} = {}%".format(acertos, total_amostras, (acertos/total_amostras)*100))
 
 
 """
